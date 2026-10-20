@@ -16,6 +16,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   bool get isLastPage => _currentIndex == _pages.length - 1;
 
   final List<_OnboardingPageData> _pages = [
+    // onboarding page 1
     _OnboardingPageData(
       highlightedText: 'Take Control',
       normalText: ' of your finances\nlike never before!',
@@ -23,16 +24,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           'Track expenses, make payments, and manage your money in one place.',
       image: 'assets/images/board_bg.png',
     ),
+    //onboarding page 2
     _OnboardingPageData(
       highlightedText: 'Spend smarter',
-      normalText: 'everyday with smarter tools in one app!',
+      normalText: ' everyday with smarter tools in one app!',
       subTitle: 'Monitor spending, pay securely',
       image: 'assets/images/board.png',
     ),
-
+    //onboarding page 3
     _OnboardingPageData(
       highlightedText: 'Pay for Everything',
-      normalText: 'with ease and confidence',
+      normalText: ' with ease and confidence',
       subTitle:
           'Handle all your payments easily, anytime, from one secure app.',
       image: 'assets/images/board_bg.png',
@@ -45,7 +47,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.white, Color(0xFFFBFDFB), Color(0xFFF5F9F5)],
+            colors: [Colors.white38, Color(0xFFFBFDFB), Color(0xFFF5F9F5)],// background Color gradient
           ),
         ),
         child: SafeArea(
@@ -61,7 +63,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   children: [
                     Row(
                       children: [
-                        Container(
+                        Container(//top right wallet icon
                           width: 32,
                           height: 32,
                           decoration: BoxDecoration(
@@ -72,7 +74,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             child: Icon(
                               Icons.account_balance_wallet_rounded,
                               color: Colors.white,
-                              size: 16,
+                              size: 18,
                             ),
                           ),
                         ),
@@ -141,7 +143,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               style: TextStyle(
                                 fontFamily: 'Inter',
                                 fontSize: 28,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w800,
                                 height: 1.25,
                                 color: AppColors.textPrimary,
                               ),
@@ -162,7 +164,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             style: TextStyle(
                               fontFamily: 'Inter',
                               fontSize: 14,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w700,
                               height: 1.5,
                               color: AppColors.textSecondary,
                             ),
@@ -171,9 +173,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           Spacer(),
                           Center(
                             child: AnimatedIllustration(
-                              child: _buildAnimatedIllustration(_currentIndex,page.image, 300.0),
+                              child: _buildAnimatedIllustration(_currentIndex,page.image, 300.0),// AnimatedIllustration Image
                             ),
                           ),
+                          Spacer(),
                         ],
                       ),
                     );
@@ -186,25 +189,92 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     );
   }
-}
-Widget _buildAnimatedIllustration(
-    int index,
-    String imagePath,
-    double maxHeight,
-    ) => SizedBox(
-  height: maxHeight,
-  child: Stack(
-    alignment: Alignment.center,
-    children: [
-      Image.asset(
-        imagePath,
-        fit: BoxFit.contain,
+  Widget _buildAnimatedIllustration(
+      int index,
+      String imagePath,
+      double maxHeight,
+      ) => SizedBox(
+    height: maxHeight,
+    child: Stack(
+      alignment: Alignment.center,
+      children: [
+        Image.asset(
+          imagePath,
+          fit: BoxFit.contain,
+        ),
+        if (index == 0)...[
+          Positioned(
+            bottom: maxHeight * 0.12,
+            right: maxHeight * 0.05,
+            
+            child: _buildFloatingCard(
+              child: Row(
+                children:[
+                  Container(
+                    padding: EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Color(0xFFE7F4E5),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset(
+                      'assets/icons/wallet.png',//bottom right icon
+                      width: 30,
+                      height: 30,
+                    ),
+                  ),
+                  SizedBox(width: 8,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Total Balance",
+                        style: TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      Text('\$12,340.00',style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.5,
+                        color: AppColors.textPrimary,
+                      ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ],
+
+    ),
+  );
+  Widget _buildFloatingCard({required Widget child}){
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 12,
+            offset: Offset(0, 8 ),
+          ),
+        ],
       ),
-    ],
-  ),
-);
+      child: child,
+    );
+  }
 
-
+}
 class _OnboardingPageData {
   final String highlightedText;
   final String normalText;
