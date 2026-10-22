@@ -183,6 +183,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   },
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(_pages.length,
+                              (i)=> _IndicatorDot(isActive: i == _currentIndex),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -251,9 +264,64 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
-        ],
+        ]else if (index == 1)// onboarding Screen #2
+          ...[
+            Positioned(
+              top: maxHeight * 0.1,
+              left: maxHeight * 0.05,
+              child: Container(
+                width: maxHeight * 0.36,
+                height: maxHeight * 0.22,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow:[
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.18),
+                        blurRadius: 12,
+                        offset: Offset(0,6),
+                      ),
+                    ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    'assets/icons/card_second.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+          ]else if (index == 2)// onboarding Screen #3
+            ...[
+              Positioned(
+                top: maxHeight * 0.2,
+                right: maxHeight * 0.02,
+                child: _buildFloatingCard(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 24,
+                          height: 24,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFE7F4E5),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Icon(Icons.check_circle_rounded,
+                              color: AppColors.indicatorActive,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Column(children: [
+                          Text("Payment sent")
+                        ]),
+                      ],
+                    )),
+              ),
+            ],
       ],
-
     ),
   );
   Widget _buildFloatingCard({required Widget child}){
@@ -287,4 +355,25 @@ class _OnboardingPageData {
     required this.subTitle,
     required this.image,
   });
+}
+
+class _IndicatorDot extends StatelessWidget{
+  const _IndicatorDot({required this.isActive});
+  final bool isActive;
+
+  @override
+  Widget build(BuildContext context){
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      margin: EdgeInsets.symmetric(horizontal: 4),
+      height: 8,
+      width: isActive ? 24 : 8,
+      decoration: BoxDecoration(
+        color: isActive
+            ? AppColors.indicatorActive
+            : AppColors.indicatorInactive,
+        borderRadius: BorderRadius.circular(8),
+      ),
+    );
+  }
 }
