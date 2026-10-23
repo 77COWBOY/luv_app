@@ -44,7 +44,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _next() {
     if(isLastPage){
-
+      _navigateToCreateAccount();
     }
     else {
       _pageController.nextPage(
@@ -52,6 +52,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           curve: Curves.easeInOutCubic,
       );
     }
+  }
+
+  void _navigateToCreateAccount(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>CreateAccountScreen()));
   }
 
 
