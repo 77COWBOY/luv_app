@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'animated_illustration.dart';
 import 'constant.dart';
 
@@ -41,13 +42,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     ),
   ];
 
+  void _next() {
+    if(isLastPage){
+
+    }
+    else {
+      _pageController.nextPage(
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOutCubic,
+      );
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.white38, Color(0xFFFBFDFB), Color(0xFFF5F9F5)],// background Color gradient
+            colors: [
+              Colors.white38,
+              Color(0xFFFBFDFB),
+              Color(0xFFF5F9F5),
+            ], // background Color gradient
           ),
         ),
         child: SafeArea(
@@ -63,7 +82,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   children: [
                     Row(
                       children: [
-                        Container(//top right wallet icon
+                        Container(
+                          //top right wallet icon
                           width: 32,
                           height: 32,
                           decoration: BoxDecoration(
@@ -173,7 +193,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           Spacer(),
                           Center(
                             child: AnimatedIllustration(
-                              child: _buildAnimatedIllustration(_currentIndex,page.image, 300.0),// AnimatedIllustration Image
+                              child: _buildAnimatedIllustration(
+                                _currentIndex,
+                                page.image,
+                                300.0,
+                              ), // AnimatedIllustration Image
                             ),
                           ),
                           Spacer(),
@@ -189,8 +213,41 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(_pages.length,
-                              (i)=> _IndicatorDot(isActive: i == _currentIndex),
+                      children: List.generate(
+                        _pages.length,
+                        (i) => _IndicatorDot(isActive: i == _currentIndex),
+                      ),
+                    ),
+                    SizedBox(height: AppSpacing.xl),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 56,
+                      child: ElevatedButton(
+                        onPressed: _next,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primaryBrown,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shadowColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              AppRadius.button,
+                            ),
+                          ),
+                        ),
+                        child: AnimatedSwitcher(
+                          duration: Duration(milliseconds: 300),
+                          child: Text(
+                            isLastPage ? 'Get Started' : 'Next',
+                            key: ValueKey(isLastPage),
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 0.2,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -202,27 +259,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     );
   }
+
   Widget _buildAnimatedIllustration(
-      int index,
-      String imagePath,
-      double maxHeight,
-      ) => SizedBox(
+    int index,
+    String imagePath,
+    double maxHeight,
+  ) => SizedBox(
     height: maxHeight,
     child: Stack(
       alignment: Alignment.center,
       children: [
-        Image.asset(
-          imagePath,
-          fit: BoxFit.contain,
-        ),
-        if (index == 0)...[
+        Image.asset(imagePath, fit: BoxFit.contain),
+        if (index == 0) ...[
           Positioned(
             bottom: maxHeight * 0.12,
             right: maxHeight * 0.05,
-            
+
             child: _buildFloatingCard(
               child: Row(
-                children:[
+                children: [
                   Container(
                     padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
@@ -230,12 +285,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       shape: BoxShape.circle,
                     ),
                     child: Image.asset(
-                      'assets/icons/wallet.png',//bottom right icon
+                      'assets/icons/wallet.png', //bottom right icon
                       width: 30,
                       height: 30,
                     ),
                   ),
-                  SizedBox(width: 8,),
+                  SizedBox(width: 8),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -250,13 +305,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           color: AppColors.textSecondary,
                         ),
                       ),
-                      Text('\$12,340.00',style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.5,
-                        color: AppColors.textPrimary,
-                      ),
+                      Text(
+                        '\$12,340.00',
+                        style: TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.5,
+                          color: AppColors.textPrimary,
+                        ),
                       ),
                     ],
                   ),
@@ -264,67 +321,91 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           ),
-        ]else if (index == 1)// onboarding Screen #2
-          ...[
-            Positioned(
-              top: maxHeight * 0.1,
-              left: maxHeight * 0.05,
-              child: Container(
-                width: maxHeight * 0.36,
-                height: maxHeight * 0.22,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow:[
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.18),
-                        blurRadius: 12,
-                        offset: Offset(0,6),
-                      ),
-                    ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    'assets/icons/card_second.png',
-                    fit: BoxFit.cover,
+        ] else if (index == 1) // onboarding Screen #2
+        ...[
+          Positioned(
+            top: maxHeight * 0.1,
+            left: maxHeight * 0.05,
+            child: Container(
+              width: maxHeight * 0.36,
+              height: maxHeight * 0.22,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.18),
+                    blurRadius: 12,
+                    offset: Offset(0, 6),
                   ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
+                  'assets/icons/card_second.png',
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
-          ]else if (index == 2)// onboarding Screen #3
-            ...[
-              Positioned(
-                top: maxHeight * 0.2,
-                right: maxHeight * 0.02,
-                child: _buildFloatingCard(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 24,
-                          height: 24,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFE7F4E5),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Icon(Icons.check_circle_rounded,
-                              color: AppColors.indicatorActive,
-                            ),
-                          ),
+          ),
+        ] else if (index == 2) // onboarding Screen #3
+        ...[
+          Positioned(
+            top: maxHeight * 0.2,
+            right: maxHeight * 0.02,
+            child: _buildFloatingCard(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFE7F4E5),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.check_circle_rounded,
+                        color: AppColors.indicatorActive,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Payment sent",
+                        style: TextStyle(
+                          fontSize: 9,
+                          color: AppColors.textSecondary,
                         ),
-                        SizedBox(width: 8),
-                        Column(children: [
-                          Text("Payment sent")
-                        ]),
-                      ],
-                    )),
+                      ),
+                      Text(
+                        "Succesful",
+                        style: TextStyle(
+                          fontFamily: "Inter",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.5,
+                          color: AppColors.indicatorActive,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
+            ),
+          ),
+        ],
       ],
     ),
   );
-  Widget _buildFloatingCard({required Widget child}){
+
+  Widget _buildFloatingCard({required Widget child}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
@@ -334,15 +415,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 12,
-            offset: Offset(0, 8 ),
+            offset: Offset(0, 8),
           ),
         ],
       ),
       child: child,
     );
   }
-
 }
+
 class _OnboardingPageData {
   final String highlightedText;
   final String normalText;
@@ -357,12 +438,13 @@ class _OnboardingPageData {
   });
 }
 
-class _IndicatorDot extends StatelessWidget{
+class _IndicatorDot extends StatelessWidget {
   const _IndicatorDot({required this.isActive});
+
   final bool isActive;
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
       margin: EdgeInsets.symmetric(horizontal: 4),
