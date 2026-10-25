@@ -9,6 +9,8 @@ class CreateAccountScreen extends StatefulWidget{
 }
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
+
+  bool _obscurePassword = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,14 +48,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
         const SizedBox(height: AppSpacing.xl),
         _label('Full Name'),
-            Container(
-              height: AppInput.height,
-                padding:const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(color: Colors.white,
-                  borderRadius: BorderRadius.circular(AppInput.radius),
-                  boxShadow: const [AppShadow.soft]
-                ),
-            )
+        MyInputField(hint: 'Full Name',),
+        const SizedBox(height: AppSpacing.md),
+        _label("Password"),
+        MyInputField(hint: 'Enter Password', obscureText: _obscurePassword,
+        ),
       ],
     ),
     ),
@@ -63,9 +62,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 }
 
 Padding _label(String text) {
-  Padding(padding: EdgeInsets.only(bottom: 6),
+  return Padding(
+    padding: EdgeInsets.only(bottom: 6),
     child:Text(
-      "Full Name",
+      "Password",
       style: TextStyle(
         fontFamily: 'Inter',
         fontSize: 14,
@@ -75,4 +75,40 @@ Padding _label(String text) {
       ),
     ),
   );
+}
+
+class MyInputField extends StatelessWidget{
+  const MyInputField({
+    super.key,
+    required this.hint,
+    this.obscureText = false,
+    this.suffix,
+  });
+  final String hint;
+  final bool obscureText;
+  final Widget? suffix;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: AppInput.height,
+      padding:const EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(color: Colors.white,
+          borderRadius: BorderRadius.circular(AppInput.radius),
+          boxShadow: const [AppShadow.soft]
+      ),
+      child: Center(
+          child: TextField(
+            obscureText: obscureText,
+            decoration:InputDecoration(hintText: hint, border: InputBorder.none,hintStyle: const TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.5,
+              color: AppColors.textSecondary,
+            ),
+              suffixIcon: suffix,
+            ),
+            ))
+    );
+  }
 }
