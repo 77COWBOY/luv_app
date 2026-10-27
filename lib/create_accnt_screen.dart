@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'login_screen.dart';
 import 'constant.dart';
 
 class CreateAccountScreen extends StatefulWidget {
@@ -139,6 +139,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               ),
               const SizedBox(height: AppSpacing.lg),
 
+              // social icons
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -147,10 +148,18 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   _socialIcon("assets/icons/telegram.png"),
                 ],
               ),
+
+
               const SizedBox(height: AppSpacing.xl),
               Center(
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen()),//path login..
+                    );
+                  },
                   child: RichText(
                     text: const TextSpan(
                       style: TextStyle(
