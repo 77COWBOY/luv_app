@@ -142,19 +142,38 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    height: 52,
-                    width: 52,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: const [AppShadow.soft],
-                    ),
-                    child: Center(
-                      child: Image.asset("assets/icons/google.png"),
-                    )
-                  ),
+                  _socialIcon("assets/icons/google.png"),
+                  _socialIcon("assets/icons/communication.png"),
+                  _socialIcon("assets/icons/telegram.png"),
                 ],
+              ),
+              const SizedBox(height: AppSpacing.xl),
+              Center(
+                child: GestureDetector(
+                  onTap: () {},
+                  child: RichText(
+                    text: const TextSpan(
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textSecondary,
+                      ),
+                      children: [
+                        TextSpan(text: "Already have an account?"),
+                        TextSpan(
+                          text: " Login",
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primaryBrown,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -162,6 +181,19 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       ),
     );
   }
+}
+
+Container _socialIcon(String imagePath) {
+  return Container(
+    height: 52,
+    width: 52,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      shape: BoxShape.circle,
+      boxShadow: const [AppShadow.soft],
+    ),
+    child: Center(child: Image.asset(imagePath, height: 24)),
+  );
 }
 
 Padding _label(String text) {
