@@ -120,6 +120,73 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: AppSpacing.lg),
+
+              Row(
+                children: [
+                  Expanded(child: Divider()),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      "Or continue with",
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.5,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ),
+                  Expanded(child: Divider()),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _socialIcon("assets/icons/google.png"),
+                  _socialIcon("assets/icons/communication.png"),
+                  _socialIcon("assets/icons/telegram.png"),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.xl),
+
+              Center(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CreateAccountScreen()),//path create account..
+                    );
+                  },
+                  child: RichText(
+                    text: const TextSpan(
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textSecondary,
+                      ),
+                      children: [
+                        TextSpan(text: "Don't have an account?"),
+                        TextSpan(
+                          text: " Create Account",
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primaryBrown,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
             ],
           ),
         ),
@@ -140,6 +207,19 @@ class _LoginScreenState extends State<LoginScreen> {
           color: AppColors.textPrimary,
         ),
       ),
+    );
+  }
+
+  Container _socialIcon(String imagePath) {
+    return Container(
+      height: 52,
+      width: 52,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        boxShadow: const [AppShadow.soft],
+      ),
+      child: Center(child: Image.asset(imagePath, height: 24)),
     );
   }
 }

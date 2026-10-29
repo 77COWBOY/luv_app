@@ -149,7 +149,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ],
               ),
 
-
               const SizedBox(height: AppSpacing.xl),
               Center(
                 child: GestureDetector(
