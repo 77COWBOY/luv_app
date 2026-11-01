@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import 'constant.dart';
-
+import 'dashboard_screen.dart';
 class OtpVerficationScreen extends StatefulWidget {
   const OtpVerficationScreen({super.key});
 
@@ -134,8 +134,17 @@ class _OtpVerficationScreenState extends State<OtpVerficationScreen> {
                        ]
                     ),
                   ),
+
                   const SizedBox(height: 24),
-                  MyPrimaryButton(title: "Verify", onPressed: () {}),
+                  MyPrimaryButton(
+                      title: "Verify",
+                      onPressed: ()=> Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context)=> DashboardScreen(),
+                          ),
+                      ),
+                  ),
                 ],
               ),
             ),
